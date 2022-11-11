@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<title>Our Funky HTML Page</title>
+<meta name="description" content="Our first page">
+<meta name="keywords" content="html tutorial template">
+<script defer src="MyJavascript.js"></script>
+</head>
+<body>
+
+<p>Content goes here.</p>
+<input type="text" id="myText" value="Enter reddit url">
+<button onclick="loadVideo()" type="button">Click Me!</button>
+<audio hidden id="video1" controls>
+  <source id="vid1Source" src="" type="audio/ogg">
+  <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+Your browser does not support the audio element.
+</audio>
+  <video hidden id="video2" width="320" height="240" controls>
+    <source id="vid2Source" src="" type="video/mp4">
+    <!-- <source src="movie.ogg" type="video/ogg"> -->
+  Your browser does not support the video tag.
+  </video>
+  <button onclick="playBoth()" type="button">Play</button>
+  <p id="demo"></p>
+</body>
+</html>
