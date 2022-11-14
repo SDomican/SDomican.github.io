@@ -35,14 +35,21 @@ function getJSON(url){
     return json_obj;
 }
 
+function setURLForNextPage(){
+    const inputVal = document.getElementById("myText").value;  
+    const URL = document.getElementById("myURL").getAttribute("href");
+    document.getElementById("myURL").href="page.html?URL=" + inputVal; 
+}
+
 function getVideoLinkForNextPage(){
     const inputVal = document.getElementById("myText").value;  
     localStorage.setItem('linkURL', inputVal);
     window.location.href = "page.html";
 }
 
-function getVideo(){
-    var inputVal = localStorage.getItem('linkURL');
+function getVideo(URL){
+    console.log(URL);
+    var inputVal = URL;
     inputVal += ".json";
     var json_obj = getJSON(inputVal);
     return json_obj;
@@ -54,7 +61,13 @@ function hideImage() {
 }
 
 function loadVideo(){
-    var json_obj = getVideo();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    console.log("Query: " + queryString);
+    const URL = urlParams.get('URL')
+    console.log("URL: " + URL);
+
+    var json_obj = getVideo(URL);
 
     var video1 = document.getElementById('video1');
     var source1 = document.getElementById('vid1Source');
@@ -78,23 +91,23 @@ function loadVideo(){
 
     hideImage();
 
-    // video1.load();
-    // video2.load();
+    video1.load();
+    video2.load();
 
-    var test = mergeVideo(video1, video2);
-    console.log("merge: " + test);
+    // var test = mergeVideo(video1, video2);
+    // console.log("merge: " + test);
 }
 
-async function mergeVideo(video, audio) {
-    let { createFFmpeg, fetchFile } = FFmpeg;
-    let ffmpeg = createFFmpeg();
-    await ffmpeg.load();
-    ffmpeg.FS('writeFile', 'video.mp4', await fetchFile(video));
-    ffmpeg.FS('writeFile', 'audio.mp4', await fetchFile(audio));
-    await ffmpeg.run('-i', 'video.mp4', '-i', 'audio.mp4', '-c', 'copy', 'output.mp4');
-    let data = await ffmpeg.FS('readFile', 'output.mp4');
-    return new Uint8Array(data.buffer);
-};
+// async function mergeVideo(video, audio) {
+//     let { createFFmpeg, fetchFile } = FFmpeg;
+//     let ffmpeg = createFFmpeg();
+//     await ffmpeg.load();
+//     ffmpeg.FS('writeFile', 'video.mp4', await fetchFile(video));
+//     ffmpeg.FS('writeFile', 'audio.mp4', await fetchFile(audio));
+//     await ffmpeg.run('-i', 'video.mp4', '-i', 'audio.mp4', '-c', 'copy', 'output.mp4');
+//     let data = await ffmpeg.FS('readFile', 'output.mp4');
+//     return new Uint8Array(data.buffer);
+// };
 
 function playBoth(url, filename) {
     alert("Play Both function activated: " + vid1);
